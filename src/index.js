@@ -1,3 +1,4 @@
+import { app } from "./app.js";
 import connectDB from "./db/index.js";
 import dotenv from "dotenv";
 dotenv.config({
@@ -30,4 +31,14 @@ const app = express();
 */
 
 // another way of connecting mongoDB:-
-connectDB();
+// the way we have written code of db file is: asynchronous code way, which will return a Promise:-
+const port = process.env.PORT || 8000;
+connectDB()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on port : ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log("Got error after DB Connection call : ", error);
+  });
